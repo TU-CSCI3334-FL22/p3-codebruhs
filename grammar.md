@@ -7,5 +7,5 @@
 | 6 |              | $\mid$ | EPSILON |
 | 7 | RightHandSide  | $\rightarrow$ | SymbolList |
 | 8 |                 |$\mid$ | EPSILON |
-| 9 | SymbolList     | $rightarrow$ | SYMBOL SymbolList |
+| 9 | SymbolList     | $\rightarrow$ | SYMBOL SymbolList |
 | 10 |                | $\mid$ | EPSILON |

@@ -1,4 +1,5 @@
-
+| | | | |
+| --------|-------|---| ---|
 | 1 | Grammar | $\rightarrow$ | ProductionList |
 |   2 | ProductionList | $\rightarrow$ |  ProductionSet SEMICOLON ProductionList |
 |   3 |                | $\mid$ | EPSILON|

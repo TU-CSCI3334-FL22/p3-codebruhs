@@ -70,7 +70,6 @@ modified
 |   7 | RightHandSide  | $\rightarrow$ | SymbolList |
 |   8 |                 |$\mid$ | EPSILON |
 |   9 | SymbolList     | $\rightarrow$ | SYMBOL SymbolList |
-|   10 |                | $\mid$ | EPSILON |
 
 
 It is important that you understand the difference between the grammar for MBNF, given in this table, and the input grammars that your parser generator accepts as input. The user of the parser generator will provide an input grammars, written in MBNF, for the language that their compiler should accept. Because the parser generator must read the input grammar, which is written in MBNF, the parser generator will include a scanner and a recursive-descent parser for MBNF. Thus, the parser that you write will accept MBNF; when the tables that your program generates are used with the skeleton parser, that skeleton parser will accept the language specified by the input grammar.

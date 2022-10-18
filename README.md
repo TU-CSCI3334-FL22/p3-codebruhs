@@ -58,6 +58,21 @@ Your parser generator will need to understand an MBNF grammar for the compilerâ€
 |    8 | SymbolList | $\rightarrow$ |  SymbolList SYMBOL|
 |    9 | | $\mid$ | SYMBOL |
 
+modified
+| | | | |
+| --------|-------|---| ---|
+| 1 | Grammar | $\rightarrow$ | ProductionList |
+|   2 | ProductionList | $\rightarrow$ |  ProductionSet SEMICOLON ProductionList |
+|   3 |                | $\mid$ | EPSILON|
+|   4 | ProductionSet | $\rightarrow$ | SYMBOL DERIVES RightHandSide ProductionSet' |
+|   5 | ProductionSet' | $\rightarrow$ | ALSODERIVES RightHandSide ProductionSet' |
+|   6 |              | $\mid$ | EPSILON |
+|   7 | RightHandSide  | $\rightarrow$ | SymbolList |
+|   8 |                 |$\mid$ | EPSILON |
+|   9 | SymbolList     | $\rightarrow$ | SYMBOL SymbolList |
+|   10 |                | $\mid$ | EPSILON |
+
+
 It is important that you understand the difference between the grammar for MBNF, given in this table, and the input grammars that your parser generator accepts as input. The user of the parser generator will provide an input grammars, written in MBNF, for the language that their compiler should accept. Because the parser generator must read the input grammar, which is written in MBNF, the parser generator will include a scanner and a recursive-descent parser for MBNF. Thus, the parser that you write will accept MBNF; when the tables that your program generates are used with the skeleton parser, that skeleton parser will accept the language specified by the input grammar.
 
 In specific, while the MBNF grammar uses uppercase letters for terminal symbols, the input grammar has no such restriction. Example input grammars are available; notice that they use upper and lower case letters freely. In practice, your parser generator can identify terminal symbols because they do not appear on the left-hand side of any production. Any non-terminal symbol will appear on the lefthand side of at least one production.
@@ -140,7 +155,7 @@ The syntax for YAML maps, lists, maps of maps of lists, and maps of maps is prov
 ## Computing Next Sets
 The next set for a production  $A \rightarrow B_1 \ldots B_k$ is defined as:
 
-* If $\epsilon \in $First($B_i$) for every $1 \leq i \leq k$, then $Next(A \rightarrow B_1 \ldots B_k) = \big(\bigcup_{1 \leq i \leq k} First(B_i)\big) \cup Follow(A)$
+* If $\epsilon \in First(B_i)$ for every $1 \leq i \leq k$, then $Next(A \rightarrow B_1 \ldots B_k) = \big(\bigcup_{1 \leq i \leq k} First(B_i)\big) \cup Follow(A)$
 * Otherwise, let $B_n$ be the first symbol where $\epsilon \not \in B_i$, and  $Next(A \rightarrow B_1 \ldots B_k) = \big(\bigcup_{1 \leq i \leq n} First(B_i)\big) \setminus \\{ \epsilon \\}$.
 
 

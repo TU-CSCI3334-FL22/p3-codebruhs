@@ -1,13 +1,14 @@
 def main():
-    file1 = open('grammars\CEG-RR', 'r')
+    file1 = open('grammars/CEG-RR', 'r')
     Lines = file1.readlines()
 
     dict = {}
-    printf("running")
+    print("running")
 
     for line in Lines:
+        #print(line)
         if line[0] == "/":
-            break
+            continue
         words = line.split()
         for word in words:
             if word == ";":
@@ -23,6 +24,8 @@ def main():
             else:
                 dict[word] = "SYMBOL"
     
-    printf("Hello World")
-    printf(dict)
+    print("Hello World")
+    print(dict)
 
+if __name__=="__main__":
+    main()

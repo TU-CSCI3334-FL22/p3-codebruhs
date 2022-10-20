@@ -40,6 +40,9 @@ def main():
         else:
             print_tables(tables)
 
+def usage():
+    print("Gabe x Jackson 4evah")
+
 if __name__ == "__main__":
     main()
   

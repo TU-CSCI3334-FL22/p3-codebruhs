@@ -1,8 +1,9 @@
+from mbnfScanner import Token
+from mbnfParser import Grammar
+
 def makeFirst(ir):
     first = {}
-    epToken = Token()
-    epToken.type = "EPSILON"
-    first[epToken] = {epToken}
+    epToken = "EPSILON"
 
     print("Create First Table:")
     for alpha in ir.terminals:
@@ -18,8 +19,8 @@ def makeFirst(ir):
         firstChanged = False
         rhs = {}
         for prod in ir.productions:
-            b1 = prod[1] # first result in production 
-            rhs = first[b1]
+            b1 = prod[1][0] # first result in production 
+            rhs = first[b1].copy()
             rhs.remove(epToken)
             i = 1
             k = len(prod) - 1

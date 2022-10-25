@@ -3,11 +3,8 @@ class Token:
     type = ""
     lexeme = ""
 
-    
-    def print(self) -> None:
-        #printf('<%d, %d>' % (self.type, self.lexeme))
-        print(self.type)
-        print(self.lexeme)
+    def prettyPrint(self) -> None:
+        return ('<'+self.type+","+self.lexeme+">")
 
 def scan_grammar(contents):
     dict = {

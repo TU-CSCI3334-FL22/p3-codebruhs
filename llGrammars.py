@@ -10,7 +10,6 @@ class Tables:
 def grammar_scan(contents):
     print("Scan contents into a list of tokens return it")
     scanned = scan_grammar(contents)
-    #print("Hello World")
     #print(dict)
     #for token in scanned:
     #    print(token.type+", "+token.lexeme)
@@ -19,7 +18,16 @@ def grammar_scan(contents):
 def grammar_parse(tokens):
     print("Read tokens into a grammar")
     parsedGrammar = parseGrammar(tokens)
-    parsedGrammar.print()
+    #for production in parsedGrammar.productions:
+    #    print("first thing = " + production[0])
+    #    for terminal in production[1]:
+    #        print(terminal.lexeme)
+    #    print(production[2])
+    #print("Non-Terminals:")
+    #print(parsedGrammar.nonterminals)
+    #print("Terminals:")
+    #print(parsedGrammar.terminals)
+    parsedGrammar.printIt()
     return parsedGrammar
 
 def fixLL(ir):

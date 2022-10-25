@@ -12,14 +12,20 @@ class Grammar:
 
     def __init__(self) -> None:
         pass
-
-    def print(self) -> None:
-        #print(self.productions)
+    
+    def printIt(self) -> None:
+        print('Grammar: ')
+        i = '{'
         for production in self.productions:
-            print(production[0])
+            i += production[0]
+            i += ', ['
             for terminal in production[1]:
-                terminal.print()
-            print(production[2])
+                i += terminal + ', '
+            i += '] '
+            i += str(production[2])
+            i+= '} '
+            print(i)
+            i = ''
         print(self.nonterminals)
         print(self.terminals)
 
@@ -63,7 +69,7 @@ def ProductionSet(tokensList, index):
         Die('not derives')
     tokensList.remove(tokensList[0])
     rightHandSide = RightHandSide(tokensList)
-    Add([head.lexeme, rightHandSide, index], grammar.productions)
+    Add((head.lexeme, rightHandSide, index), grammar.productions)
     return head
 
 def ProductionSetPrime(tokensList, head, index):
@@ -71,12 +77,12 @@ def ProductionSetPrime(tokensList, head, index):
         Die('not alsoderives')
     tokensList.remove(tokensList[0])
     rightHandSide = RightHandSide(tokensList)
-    Add([head.lexeme, rightHandSide, index], grammar.productions)
+    Add((head.lexeme, rightHandSide, index), grammar.productions)
 
 def RightHandSide(tokensList):
     rightHandList = []
     while (tokensList[0].type == "SYMBOL"):
-        rightHandList.append(tokensList[0])
+        rightHandList.append(tokensList[0].lexeme)
         if (isProduction(tokensList[0])):
             Add(tokensList[0].lexeme, grammar.nonterminals)
         else:

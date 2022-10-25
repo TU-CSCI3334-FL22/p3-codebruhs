@@ -3,6 +3,12 @@ class Token:
     type = ""
     lexeme = ""
 
+    
+    def print(self) -> None:
+        #printf('<%d, %d>' % (self.type, self.lexeme))
+        print(self.type)
+        print(self.lexeme)
+
 def scan_grammar(contents):
     dict = {
         ";": "SEMICOLON",

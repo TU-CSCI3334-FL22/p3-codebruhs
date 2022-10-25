@@ -14,7 +14,12 @@ class Grammar:
         pass
 
     def print(self) -> None:
-        print(self.productions)
+        #print(self.productions)
+        for production in self.productions:
+            print(production[0])
+            for terminal in production[1]:
+                terminal.print()
+            print(production[2])
         print(self.nonterminals)
         print(self.terminals)
 
@@ -33,35 +38,40 @@ def parseGrammar(tokensList):
 
 def ProductionList(tokensList):
     prodList = []
+    index = 1
     while (tokensList):
-        ProductionSet(tokensList)
+        head = ProductionSet(tokensList, index)
         while (tokensList[0].type == "ALSODERIVES"):
-            prodSet = ProductionSetPrime(tokensList)
+            index += 1
+            prodSet = ProductionSetPrime(tokensList, head, index)
             prodList.append(prodSet)
         if (tokensList[0].type != "SEMICOLON"):
             print(tokensList[0].lexeme)
             Die('not semicolon')
         tokensList.remove(tokensList[0])
+        index += 1
 
-def ProductionSet(tokensList):
+def ProductionSet(tokensList, index):
     token = tokensList[0]
     head = token
     if (token.type != "SYMBOL") :
         print(token.lexeme)
         Die('not symbol')
-    Add(head.lexeme, grammar.productions)
     tokensList.remove(tokensList[0])
 
     if (tokensList[0].type != "DERIVES"):
         Die('not derives')
     tokensList.remove(tokensList[0])
     rightHandSide = RightHandSide(tokensList)
+    Add([head.lexeme, rightHandSide, index], grammar.productions)
+    return head
 
-def ProductionSetPrime(tokensList):
+def ProductionSetPrime(tokensList, head, index):
     if (tokensList[0].type != "ALSODERIVES"):
         Die('not alsoderives')
     tokensList.remove(tokensList[0])
     rightHandSide = RightHandSide(tokensList)
+    Add([head.lexeme, rightHandSide, index], grammar.productions)
 
 def RightHandSide(tokensList):
     rightHandList = []
@@ -74,14 +84,15 @@ def RightHandSide(tokensList):
         tokensList.remove(tokensList[0]); 
     if (tokensList[0].type == "EPSILON"):
         tokensList.remove(tokensList[0]); 
+    return rightHandList
 
 def isProduction(token):
     for production in grammar.productions:
         if (type(token) is Token):
-            if (token.lexeme == production):
+            if (token.lexeme == production[0]):
                 return True
         else:
-            if (token == production):
+            if (token == production[0]):
                 return True
     return False
 

@@ -81,13 +81,16 @@ def make_next(ir,firstSet,followSet):
                 k += 1
             if hasEpsilon:
                 ir[i].next = make_rhs union A
+                # union of all 
                 # set next to rhs Union follow of A
             else:
                 ir[i].next = make_rhs remove epsilon
                 # set next to rhs sub epsilon
             j += 1
 """
-            
+            #add every first(B,i) to dict
+            #if hasEpsilon, add follow(A) to dict
+            #else remove epsilon from dict
 
     #for all productions
     #for each result bi

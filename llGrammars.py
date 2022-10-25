@@ -15,7 +15,9 @@ class Tables:
 
 def grammar_scan(contents):
     print("Scan contents into a list of tokens return it")
+    return scan(contents)
 
+def scan(contents):
     dict = {
         ";": "SEMICOLON",
         ":": "DERIVES",

@@ -1,7 +1,6 @@
 import getopt, sys
 from llGrammars import *
 
-
 def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], "htrw", ["help", "table", "revise", "worklist"])

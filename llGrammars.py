@@ -1,26 +1,26 @@
 from makeTables import *
-
-class Token:
-    type = ""
-    lexeme = ""
-
-class Grammar:
-    productions = []
-    nonterminals = []
-    terminals = []
+from mbnfParser import *
+from mbnfScanner import *
 
 class Tables:
     firstTable = {}
     followTable = {}
     nextTable = {}
 
-
 def grammar_scan(contents):
     print("Scan contents into a list of tokens return it")
+    scanned = scan_grammar(contents)
+    #print("Hello World")
+    #print(dict)
+    #for token in scanned:
+    #    print(token.type+", "+token.lexeme)
+    return scanned
 
 def grammar_parse(tokens):
     print("Read tokens into a grammar")
-    return Grammar()
+    parsedGrammar = parseGrammar(tokens)
+    parsedGrammar.print()
+    return parsedGrammar
 
 def fixLL(ir):
     return ir

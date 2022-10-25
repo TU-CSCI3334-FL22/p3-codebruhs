@@ -1,31 +1,40 @@
-def main():
-    file1 = open('grammars/CEG-RR', 'r')
-    Lines = file1.readlines()
 
-    dict = {}
-    print("running")
+class Token:
+    type = ""
+    lexeme = ""
 
-    for line in Lines:
-        #print(line)
-        if line[0] == "/":
-            continue
-        words = line.split()
-        for word in words:
-            if word == ";":
-                dict[";"] = "SEMICOLON"
-            elif word == ":":
-                dict[":"] = "DERIVES"
-            elif word == "|":
-                dict["|"] = "ALSODERIVES"
-            elif word == "Epsilon" or word == "epsilon" or word == "EPSILON":
-                dict["Epsilon"] = "EPSILON"
-                dict["epsilon"] = "EPSILON"
-                dict["EPSILON"] = "EPSILON"
-            else:
-                dict[word] = "SYMBOL"
     
-    print("Hello World")
-    print(dict)
+    def print(self) -> None:
+        #printf('<%d, %d>' % (self.type, self.lexeme))
+        print(self.type)
+        print(self.lexeme)
 
-if __name__=="__main__":
-    main()
+def scan_grammar(contents):
+    dict = {
+        ";": "SEMICOLON",
+        ":": "DERIVES",
+        "|": "ALSODERIVES",
+        "Epsilon": "EPSILON",
+        "epsilon": "EPSILON",
+        "EPSILON": "EPSILON",
+    }
+
+    words = contents.split()
+    scanned = []
+    
+    for word in words:
+        #if word[0] == "/" and word[1] == "/":
+            #continue
+        if word in dict:
+            temp = Token()
+            temp.type = dict[word]
+            temp.lexeme = word
+            scanned.append(temp)
+        else:
+            dict[word] = "SYMBOL"
+            temp = Token()
+            temp.type = dict[word]
+            temp.lexeme = word
+            scanned.append(temp)
+
+    return scanned

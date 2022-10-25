@@ -19,7 +19,8 @@ def makeFirst(ir):
         rhs = {}
         for prod in ir.productions:
             b1 = prod[1] # first result in production 
-            rhs = first[b1].remove(epToken)
+            rhs = first[b1]
+            rhs.remove(epToken)
             i = 1
             k = len(prod) - 1
             while epToken in first[prod[i]] and i < k:
@@ -62,7 +63,8 @@ def makeFollow(ir, first):
                 if bi in ir.nonterminals:
                     follow[bi].update(trailer)
                     if epToken in first[bi]:
-                        trailer.update(first[bi].remove(epToken))
+                        trailer.update(first[bi])
+                        trailer.remove(epToken)
                     else:
                         trailer = first[bi]
                 else:

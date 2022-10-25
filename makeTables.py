@@ -8,28 +8,38 @@ def makeFirst(ir):
     print("Create First Table:")
     for alpha in ir.terminals:
         first[alpha] = {alpha}
+    first[epToken] = {"EPSILON"}
     # If we need something for eof, put that here
     for a in ir.nonterminals:
-        first[a] = {}
-        
+        first[a] = set()
+    
+    # Add Epsilon to empty lists
+    for prod in ir.productions:
+        if len(prod[1]) == 0:
+            prod[1].append("EPSILON")
+
     firstChanged = True
     oldFirst = first
-    emptySet = {}
+    emptySet = set()
     while firstChanged == True:
         firstChanged = False
-        rhs = {}
+        rhs = set()
         for prod in ir.productions:
+            print(prod[1])
             b1 = prod[1][0] # first result in production 
             rhs = first[b1].copy()
-            rhs.remove(epToken)
-            i = 1
-            k = len(prod) - 1
-            while epToken in first[prod[i]] and i < k:
+            if epToken in rhs:
+                rhs.remove(epToken)
+            i = 0
+            k = len(prod[1]) - 1
+            while epToken in first[prod[1][i]] and i < k:
                 i += 1
-                rhs = rhs.update(first[prod[i]].remove(epToken))
-            if i == k and epToken in first[k]:
-                rhs = rhs.add(epToken)
-            first(prod[0]).update(rhs)
+                temp = first[prod[1][i]].copy()
+                rhs = rhs.update(temp.remove(epToken))
+            if i == k and epToken in first[prod[1][k]]:
+                rhs.add(epToken)
+            first[prod[0]].update(rhs)
+            print("Production done")
         # Need to Check if first has changed
         for key in first:
             if (len(first[key].difference(oldFirst[key])) != 0):
@@ -65,7 +75,7 @@ def makeFollow(ir, first):
                     follow[bi].update(trailer)
                     if epToken in first[bi]:
                         trailer.update(first[bi])
-                        trailer.remove(epToken)
+                        if epToken in trailer: trailer.remove(epToken)
                     else:
                         trailer = first[bi]
                 else:

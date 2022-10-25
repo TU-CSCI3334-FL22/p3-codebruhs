@@ -40,6 +40,7 @@ def parseGrammar(tokensList):
             Add(terminal, toRemove)
     for item in toRemove:
         grammar.terminals.remove(item)
+    addLHS(grammar)
     return grammar
 
 def ProductionList(tokensList):
@@ -114,3 +115,8 @@ def Die(place):
     print('Comitting Die')
     print(place)
     quit()
+
+def addLHS(grammar):
+    for prod in grammar.productions:
+        if not(prod[0] in grammar.nonterminals):
+            grammar.nonterminals.append(prod[0])

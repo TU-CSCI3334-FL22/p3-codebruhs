@@ -1,7 +1,6 @@
+
 from mbnfParser import *
 from mbnfScanner import *
-
-
 
 class Tables:
     firstTable = {}

@@ -62,8 +62,37 @@ def make_tables(ir, worklist):
     else:
         print("Make and return the appropriate tables")
         return(Tables())
+"""
+def make_next(ir,firstSet,followSet):
+    epToken = Token()
+    epToken.type = "EPSILON"
+    i = 0
+    while i < ir.length(): #make a for loop
+        tok = ir(i)
+        j = 0
+        firstSets = first(tok)
+        hasEpsilon = True
+        while j < firstSets.length() and hasEpsilon:
+            k = firstSets[j].length() - 1
+            hasEpsilon = False
+            while k > 1 and (not hasEpsilon):
+                if firstSets[j][k].type == "EPSILON":
+                    hasEpsilon = True
+                k += 1
+            if hasEpsilon:
+                ir[i].next = make_rhs union A
+                # set next to rhs Union follow of A
+            else:
+                ir[i].next = make_rhs remove epsilon
+                # set next to rhs sub epsilon
+            j += 1
+"""
+            
 
-        
+    #for all productions
+    #for each result bi
+    # if every first(bi) contains epsilon then stuff remove epsilon
+    # else
 def print_tables(tables):
    print("Print tables in human-readable format")
 

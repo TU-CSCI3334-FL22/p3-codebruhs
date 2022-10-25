@@ -1,57 +1,27 @@
-class Token:
-    type = ""
-    lexeme = ""
 
-class Grammar:
-    productions = []
-    nonterminals = []
-    terminals = []
+from mbnfParser import *
+from mbnfScanner import *
 
 class Tables:
     firstTable = {}
     followTable = {}
     nextTable = {}
 
-
 def grammar_scan(contents):
     print("Scan contents into a list of tokens return it")
 
-    dict = {
-        ";": "SEMICOLON",
-        ":": "DERIVES",
-        "|": "ALSODERIVES",
-        "Epsilon": "EPSILON",
-        "epsilon": "EPSILON",
-        "EPSILON": "EPSILON",
-    }
-
-    words = contents.split()
-    scanned = []
-    
-    for word in words:
-        #if word[0] == "/" and word[1] == "/":
-            #continue
-        if word in dict:
-            temp = Token()
-            temp.type = dict[word]
-            temp.lexeme = word
-            scanned.append(temp)
-        else:
-            dict[word] = "SYMBOL"
-            temp = Token()
-            temp.type = dict[word]
-            temp.lexeme = word
-            scanned.append(temp)
-    
+    scanned = scan_grammar(contents)
     #print("Hello World")
     #print(dict)
     #for token in scanned:
-        #print(token.type+", "+token.lexeme)
+    #    print(token.type+", "+token.lexeme)
     return scanned
 
 def grammar_parse(tokens):
     print("Read tokens into a grammar")
-    return Grammar()
+    parsedGrammar = parseGrammar(tokens)
+    parsedGrammar.print()
+    return parsedGrammar
 
 def fixLL(ir):
     return ir

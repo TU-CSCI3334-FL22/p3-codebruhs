@@ -19,13 +19,13 @@ def makeFirst(ir):
             prod[1].append("EPSILON")
 
     firstChanged = True
-    oldFirst = first
+    oldFirst = copyTable(first)
     emptySet = set()
     while firstChanged == True:
         firstChanged = False
         rhs = set()
         for prod in ir.productions:
-            print(prod[1])
+            #print(prod)
             b1 = prod[1][0] # first result in production 
             rhs = first[b1].copy()
             if epToken in rhs:
@@ -39,52 +39,59 @@ def makeFirst(ir):
             if i == k and epToken in first[prod[1][k]]:
                 rhs.add(epToken)
             first[prod[0]].update(rhs)
-            print("Production done")
+            #print("Production done")
         # Need to Check if first has changed
         for key in first:
             if (len(first[key].difference(oldFirst[key])) != 0):
                 # Difference is not 0, something has changed
                 firstChanged = True
-        oldFirst = first
+        oldFirst = copyTable(first)
 
     return first
 
 def makeFollow(ir, first):
     follow = {}
-    epToken = Token()
-    epToken.type = "EPSILON"
-    eofToken = Token()
-    eofToken.type = "EOF"
+    epToken = "EPSILON"
+    eofToken = "EOF"
 
     print("Create Follow Table:")
     for a in ir.nonterminals:
-        follow[a] = {}
+        follow[a] = set()
+    #Incorrect - need a better way of finding top-level production (not always at top)
     s = ir.productions[0][0]
     follow[s] = {eofToken}
 
     followChanged = True
-    oldFollow = follow
+    oldFollow = copyTable(follow)
     while followChanged == True:
         followChanged = False
         for prod in ir.productions:
-            trailer = follow[prod[0]]
-            k = len(prod) - 1
-            for i in range(k, 1, -1):
-                bi = prod[i]
+            trailer = follow[prod[0]].copy()
+            k = len(prod[1]) - 1
+            for i in range(k, -1, -1):
+                bi = prod[1][i]
                 if bi in ir.nonterminals:
                     follow[bi].update(trailer)
                     if epToken in first[bi]:
                         trailer.update(first[bi])
-                        if epToken in trailer: trailer.remove(epToken)
+                        #print(follow)
+                        trailer.remove(epToken)
                     else:
-                        trailer = first[bi]
+                        trailer = first[bi].copy()
                 else:
-                    trailer = first[bi] # Bi is a terminal
+                    trailer = first[bi].copy() # Bi is a terminal
         # Need to Check if follow has changed
         for key in follow:
-            if (len(first[key].difference(oldFollow[key])) != 0):
+            if (len(follow[key].difference(oldFollow[key])) != 0):
                 # Difference is not 0, something has changed
                 followChanged = True
-        oldFollow = follow
+        oldFollow = copyTable(follow)
 
     return follow
+
+def copyTable(dict):
+    # For some reason the .copy() function only makes a shallow copy when used on the tables
+    newDict = {}
+    for key in dict:
+        newDict[key] = dict[key].copy()
+    return newDict

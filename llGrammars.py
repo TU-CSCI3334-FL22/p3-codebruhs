@@ -41,7 +41,9 @@ def make_tables(ir, worklist):
         print("Make and return the appropriate tables")
         # Each Table is a Dictionary, of Tokens mapped to Sets of Tokens
         tables.firstTable = makeFirst(ir)
+        print(tables.firstTable)
         tables.followTable = makeFollow(ir, tables.firstTable)
+        print(tables.followTable)
         return(tables)
 
 def print_tables(tables):

@@ -41,7 +41,7 @@ def make_tables(ir, worklist):
         return(tables)
 
 def print_tables(tables):
-    print("Print tables in human-readable format")
+    print("\nPrint tables in human-readable format")
     print("First Table:")
     print("----------------------")
     for i in tables.firstTable:
@@ -55,12 +55,20 @@ def print_tables(tables):
     print("----------------------")
     for i in tables.followTable:
         print(i + "\t | ", end="")
-        for j in tables.firstTable[i]:
+        for j in tables.followTable[i]:
             print(j + " ", end="")
         print("")
     print("\n")
 
     # Print Next Table - do later
+    print("Next Table:")
+    print("----------------------")
+    for i in tables.nextTable:
+        print(i[0] + "\t | ", end="")
+        for j in i[1]:
+            print(str(j) + " ", end="")
+        print("")
+    print("\n")
 
 def print_yaml(tables):
     print("Print tables in yaml format, or error if the involution of the next table fails")

@@ -8,7 +8,7 @@ class Tables:
     nextTable = {}
 
 def grammar_scan(contents):
-    print("Scan contents into a list of tokens return it")
+    print("Scan contents into a list of tokens return it \n")
     scanned = scan_grammar(contents)
     #print(dict)
     #for token in scanned:
@@ -16,17 +16,8 @@ def grammar_scan(contents):
     return scanned
 
 def grammar_parse(tokens):
-    print("Read tokens into a grammar")
+    print("Read tokens into a grammar \n")
     parsedGrammar = parseGrammar(tokens)
-    #for production in parsedGrammar.productions:
-    #    print("first thing = " + production[0])
-    #    for terminal in production[1]:
-    #        print(terminal.lexeme)
-    #    print(production[2])
-    #print("Non-Terminals:")
-    #print(parsedGrammar.nonterminals)
-    #print("Terminals:")
-    #print(parsedGrammar.terminals)
     parsedGrammar.printIt()
     return parsedGrammar
 
@@ -38,12 +29,15 @@ def make_tables(ir, worklist):
     if(worklist):
         sys.exit("Worklists not supported yet!")
     else:
-        print("Make and return the appropriate tables")
+        print("Make and return the appropriate tables \n")
         # Each Table is a Dictionary, of Tokens mapped to Sets of Tokens
         tables.firstTable = makeFirst(ir)
         print(tables.firstTable)
+        print('')
         tables.followTable = makeFollow(ir, tables.firstTable)
         print(tables.followTable)
+        print('')
+        tables.nextTable = makeNext(ir, tables.firstTable, tables.followTable)
         return(tables)
 
 def print_tables(tables):

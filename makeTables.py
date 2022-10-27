@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from mbnfScanner import Token
 from mbnfParser import Grammar
 
@@ -88,6 +89,52 @@ def makeFollow(ir, first):
         oldFollow = copyTable(follow)
 
     return follow
+
+def makeNext(ir, firstTable, followTable):
+    print('Create Next Table: ')
+    next = []
+    epToken = "EPSILON"
+    eofToken = "EOF"
+    for i in range(len(ir.productions)):
+        production = ir.productions[i]
+        head = production[0]
+        print('')
+        print(production)
+        print(followTable[head])
+
+        hasEpsilon = False
+        for terminal in production[1]:
+            if terminal == epToken:
+                hasEpsilon = True
+        nextSet = []
+        if (hasEpsilon):
+            print('Has Epsilon')
+            nextSet = unionSets(nextSet, followTable[head])
+            for terminal in production[1]:
+                nextSet = unionSets(nextSet, firstTable[terminal])
+        else:
+            print('Hasn\'t Epsilon')
+            for terminal in production[1]:
+                nextSet = unionSets(nextSet, firstTable[terminal])
+            if epToken in nextSet:
+                print('Removing Epsilon')
+                nextSet.remove(epToken)
+        newThing = (production[0], nextSet, production[2])
+        print(newThing)
+        next.append(newThing)
+    print('\nNextTable:')
+    for production in next:
+        print(production)
+    return next
+
+def unionSets(baseSet, inputSet):
+    out = []
+    for value in baseSet:
+        out.append(value)
+    for value in inputSet:
+        if not value in out:
+            out.append(value)
+    return out
 
 def copyTable(dict):
     # For some reason the .copy() function only makes a shallow copy when used on the tables

@@ -1,6 +1,7 @@
 from makeTables import *
 from mbnfParser import *
 from mbnfScanner import *
+from fixLL import rmDirLeftRecursion
 
 class Tables:
     firstTable = {}
@@ -22,7 +23,14 @@ def grammar_parse(tokens):
     return parsedGrammar
 
 def fixLL(ir):
-    return ir
+    print()
+    print("Fixing Left Recursion:")
+    print("Old IR = ", end="")
+    ir.printIt()
+    newIr = rmDirLeftRecursion(ir)
+    print("New IR = ", end="")
+    newIr.printIt()
+    return newIr
 
 def make_tables(ir, worklist):
     tables = Tables()
@@ -38,6 +46,7 @@ def make_tables(ir, worklist):
         print(tables.followTable)
         print('')
         tables.nextTable = makeNext(ir, tables.firstTable, tables.followTable)
+        print(tables.nextTable)
         return(tables)
 
 def print_tables(tables):
@@ -60,13 +69,13 @@ def print_tables(tables):
         print("")
     print("\n")
 
-    # Print Next Table - do later
     print("Next Table:")
     print("----------------------")
-    for i in tables.nextTable:
-        print(i[0] + "\t | ", end="")
-        for j in i[1]:
-            print(str(j) + " ", end="")
+    for (index, i) in tables.nextTable:
+        print(index, end="")
+        print(". " + i + "\t | ", end="")
+        for j in tables.nextTable[(index, i)]:
+            print(j + " ", end="")
         print("")
     print("\n")
 

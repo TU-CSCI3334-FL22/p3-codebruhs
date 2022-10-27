@@ -92,32 +92,47 @@ def makeFollow(ir, first):
 
 def makeNext(ir, firstTable, followTable):
     print('Create Next Table: ')
-    next = []
+    nextTable = {}
     epToken = "EPSILON"
     eofToken = "EOF"
     for i in range(len(ir.productions)):
         production = ir.productions[i]
         head = production[0]
+        #print('')
+        #print(production)
+        #print(followTable[head])
 
-        hasEpsilon = False
+        firstEpsilons = False
         for terminal in production[1]:
-            if epToken in firstTable[terminal]: 
-                hasEpsilon = True
-        nextSet = []
-        if (hasEpsilon):
-            nextSet = unionSets(nextSet, followTable[head])
+            if epToken in firstTable[terminal]:
+                firstEpsilons = True
+        nextSet = set()
+
+        if (firstEpsilons):
+            # Next(A -> Bs) = First(all Bs) union Follow(A)
+            nextSet.update(followTable[head])
             for terminal in production[1]:
-                nextSet = unionSets(nextSet, firstTable[terminal])
+                nextSet.update(firstTable[terminal])
         else:
-            for terminal in production[1]:
-                nextSet = unionSets(nextSet, firstTable[terminal])
+            # Next(A -> Bs) = First(Bs up to and including first non-epsilon B) minus Epsilon
+            i = 0
+            k = len(production[1])
+            nonEpsilonFound = False
+            while i < k and not(nonEpsilonFound):
+                if production[1][i] == "EPSILON":
+                    i = i+1
+                else:
+                    nonEpsilonFound = True
+                    nextSet.update(firstTable[production[1][i]])
             if epToken in nextSet:
+                #print('Removing Epsilon')
                 nextSet.remove(epToken)
-        newThing = (production[0], nextSet, production[2])
-        next.append(newThing)
-    for production in next:
-        print(production)
-    return next
+        #print(newThing)
+        nextTable[(production[2], production[0])] = nextSet
+    #print('\nNextTable:')
+    #for production in next:
+        #print(production)
+    return nextTable
 
 def unionSets(baseSet, inputSet):
     out = []

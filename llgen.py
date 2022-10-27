@@ -14,6 +14,7 @@ def main():
     revise = False
     worklist = False
     for o, a in opts:
+        print(o)
         if o in ("-h", "--help"):
             usage()
             sys.exit()

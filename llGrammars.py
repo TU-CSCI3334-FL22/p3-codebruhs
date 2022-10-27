@@ -46,6 +46,7 @@ def make_tables(ir, worklist):
         print(tables.followTable)
         print('')
         tables.nextTable = makeNext(ir, tables.firstTable, tables.followTable)
+        print(tables.nextTable)
         return(tables)
 
 def print_tables(tables):
@@ -68,7 +69,15 @@ def print_tables(tables):
         print("")
     print("\n")
 
-    # Print Next Table - do later
+    print("Next Table:")
+    print("----------------------")
+    for (index, i) in tables.nextTable:
+        print(index, end="")
+        print(". " + i + "\t | ", end="")
+        for j in tables.nextTable[(index, i)]:
+            print(j + " ", end="")
+        print("")
+    print("\n")
 
 def print_yaml(tables):
     print("Print tables in yaml format, or error if the involution of the next table fails")

@@ -51,19 +51,19 @@ def print_tables(tables):
     print("First Table:")
     print("----------------------")
     for i in tables.firstTable:
-        print(i.lexeme + "\t | ", end="")
+        print(i + "\t | ", end="")
         for j in tables.firstTable[i]:
-            print(j.lexeme + " ", end="")
-        print("---------------------")
+            print(j + " ", end="")
+        print("")
     print()
 
     print("Follow Table:")
     print("----------------------")
     for i in tables.followTable:
-        print(i.lexeme + "\t | ", end="")
+        print(i + "\t | ", end="")
         for j in tables.firstTable[i]:
-            print(j.lexeme + " ", end="")
-        print("---------------------")
+            print(j + " ", end="")
+        print("")
     print("\n")
 
     # Print Next Table - do later

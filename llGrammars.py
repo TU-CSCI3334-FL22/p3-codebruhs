@@ -50,7 +50,7 @@ def make_tables(ir, worklist):
         return(tables)
 
 def print_tables(tables):
-    print("Print tables in human-readable format")
+    print("\nPrint tables in human-readable format")
     print("First Table:")
     print("----------------------")
     for i in tables.firstTable:

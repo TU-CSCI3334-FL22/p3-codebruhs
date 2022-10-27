@@ -1,6 +1,3 @@
-//
-// Warning: This grammar is not an LL(1) grammar.
-//
-Goal : SheepNoise;
+Goal : SheepNoise ;
 
-SheepNoise : baa SheepNoise | baa;
+SheepNoise : baa SheepNoise | baa ;

@@ -98,9 +98,9 @@ def makeNext(ir, firstTable, followTable):
     for i in range(len(ir.productions)):
         production = ir.productions[i]
         head = production[0]
-        print('')
-        print(production)
-        print(followTable[head])
+        #print('')
+        #print(production)
+        #print(followTable[head])
 
         hasEpsilon = False
         for terminal in production[1]:
@@ -108,23 +108,23 @@ def makeNext(ir, firstTable, followTable):
                 hasEpsilon = True
         nextSet = []
         if (hasEpsilon):
-            print('Has Epsilon')
+            #print('Has Epsilon')
             nextSet = unionSets(nextSet, followTable[head])
             for terminal in production[1]:
                 nextSet = unionSets(nextSet, firstTable[terminal])
         else:
-            print('Hasn\'t Epsilon')
+            #print('Hasn\'t Epsilon')
             for terminal in production[1]:
                 nextSet = unionSets(nextSet, firstTable[terminal])
             if epToken in nextSet:
-                print('Removing Epsilon')
+                #print('Removing Epsilon')
                 nextSet.remove(epToken)
         newThing = (production[0], nextSet, production[2])
-        print(newThing)
-        next.append(newThing)
-    print('\nNextTable:')
-    for production in next:
-        print(production)
+        #print(newThing)
+        #next.append(newThing)
+    #print('\nNextTable:')
+    #for production in next:
+        #print(production)
     return next
 
 def unionSets(baseSet, inputSet):

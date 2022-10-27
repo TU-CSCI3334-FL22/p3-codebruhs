@@ -102,10 +102,10 @@ def makeNext(ir, firstTable, followTable):
         #print(production)
         #print(followTable[head])
 
-        firstEpsilons = False
+        firstEpsilons = True
         for terminal in production[1]:
-            if epToken in firstTable[terminal]:
-                firstEpsilons = True
+            if not(epToken in firstTable[terminal]):
+                firstEpsilons = False
         nextSet = set()
 
         if (firstEpsilons):

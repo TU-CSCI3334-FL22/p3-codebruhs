@@ -52,7 +52,7 @@ def make_tables(ir, worklist):
 def print_tables(tables):
     print("\nPrint tables in human-readable format")
     print("First Table:")
-    print("-------------- --------")
+    print("----------------------")
     for i in tables.firstTable:
         print(i + "\t | ", end="")
         for j in tables.firstTable[i]:

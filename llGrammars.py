@@ -52,7 +52,7 @@ def make_tables(ir, worklist):
 def print_tables(tables):
     print("\nPrint tables in human-readable format")
     print("First Table:")
-    print("----------------------")
+    print("-------------- --------")
     for i in tables.firstTable:
         print(i + "\t | ", end="")
         for j in tables.firstTable[i]:
@@ -79,6 +79,95 @@ def print_tables(tables):
         print("")
     print("\n")
 
-def print_yaml(tables):
-    print("Print tables in yaml format, or error if the involution of the next table fails")
+def print_yaml(tables,grammar):
+    print("terminals: [",end="")
+    i = len(grammar.terminals)
+    for t in grammar.terminals:
+        print(t, end="")
+        if i>1:
+            print(",",end=" ")
+        i-=1
+    print("]")
+    print("non-terminals: [",end="")
+    i = len(grammar.nonterminals)
+    for nt in grammar.nonterminals:
+        print(nt,end="")
+        if i>1:
+            print(",",end=" ")
+        i-=1
+    print("]")
+    print("eof-marker: <EOF>\nerror-marker: --")
+    print("start-symbol: ", end="")
+    #fix
+    nextTableList = list(tables.nextTable)
+    start = nextTableList[0][1]
+    print(start)
+    print("productions: ")
+    n=1
+    for p in grammar.productions:
+        print(" ",end="")
+        print(n,end="")
+        print(": {",end="")
+        print(p[0],end="")
+        print(": [",end="")
+        start = True
+        for prod in p[1]:
+            if not start:
+                print(", ",end="")
+            print(prod,end="")
+            start = False
+        print("]}")            
+        n+=1
+    print("table:")
+    #call next table:
+    nxtTable = convertNextTable(tables,grammar)
+    i=0
+    for ntRow in nxtTable:
+        print(" ",end="")
+        print(grammar.nonterminals[i],end="")
+        print(": {",end = "")
+        j=0
+        start = True
+        for tCol in nxtTable[i]:
+            if  j > 0 and not start:
+                print(", ",end="")
+            if j < len(grammar.terminals):
+                print(grammar.terminals[j],end = "")
+            elif j < (len(grammar.terminals)+1):
+                print("EPSILON",end = "")
+            elif j < (len(grammar.terminals) + 2):
+                print("EOF",end = "")
+            print(": ",end = "")
+            if not tCol==-1:
+                print(tCol,end = "")
+            else:
+                print("--",end="")
+            start = False
+            j += 1
+        i += 1
+        print("}")
+def convertNextTable(tables,grammar):
+    involuted = [[-1 for c in range(len(grammar.terminals) + 2)] for r in range(len(grammar.nonterminals))]
+    #[PLUS, MINUS, TIMES, DIV, LP, RP, NUMBER, IDENTIFIER],EPSILON,EOF   
+    nonterminalInNextTable = {}
+    terminalInNextTable = {}
+    ind = 0
+    for nonterm in grammar.nonterminals:
+        nonterminalInNextTable[nonterm]=ind
+        ind += 1
+
+    ind = 0
+    for term in grammar.terminals:
+        terminalInNextTable[term]=ind
+        ind += 1
+    terminalInNextTable["EPSILON"]=ind
+    terminalInNextTable["EOF"]=ind+1
+
+    for (index, i) in tables.nextTable:
+        #print(i + ": {", end="")
+        for j in tables.nextTable[(index, i)]:
+            #print(i)
+            involuted[nonterminalInNextTable.get(i)][terminalInNextTable.get(j)]=index
+    return involuted
+
    

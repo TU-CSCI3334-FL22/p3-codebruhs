@@ -36,6 +36,7 @@ def main():
             ir = fixLL(ir)
         tables = make_tables(ir, worklist)
         print_tables(tables)
+        #print_yaml(tables,ir)
         if printTable:
             print_yaml(tables,ir)
         else:

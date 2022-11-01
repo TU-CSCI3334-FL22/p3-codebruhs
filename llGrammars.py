@@ -129,18 +129,20 @@ def print_yaml(tables,grammar):
         j=0
         start = True
         for tCol in nxtTable[i]:
-            if not tCol == -1:
-                if  j > 0 and not start:
-                    print(", ",end="")
-                if j < len(grammar.terminals):
-                    print(grammar.terminals[j],end = "")
-                elif j < (len(grammar.terminals)+1):
-                    print("EPSILON",end = "")
-                elif j < (len(grammar.terminals) + 2):
-                    print("EOF",end = "")
-                print(": ",end = "")
+            if  j > 0 and not start:
+                print(", ",end="")
+            if j < len(grammar.terminals):
+                print(grammar.terminals[j],end = "")
+            elif j < (len(grammar.terminals)+1):
+                print("EPSILON",end = "")
+            elif j < (len(grammar.terminals) + 2):
+                print("EOF",end = "")
+            print(": ",end = "")
+            if not tCol==-1:
                 print(tCol,end = "")
-                start = False
+            else:
+                print("--",end="")
+            start = False
             j += 1
         i += 1
         print("}")

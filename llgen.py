@@ -35,8 +35,9 @@ def main():
         if revise:
             ir = fixLL(ir)
         tables = make_tables(ir, worklist)
+        print_tables(tables)
         if printTable:
-            print_yaml(tables)
+            print_yaml(tables,ir)
         else:
             print_tables(tables)
 

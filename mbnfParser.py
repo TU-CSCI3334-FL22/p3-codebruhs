@@ -1,6 +1,7 @@
 from lib2to3.pgen2 import token
 from queue import Empty
 from lib2to3.pgen2.grammar import Grammar
+import sys
 
 from mbnfScanner import Token
 
@@ -52,7 +53,7 @@ def ProductionList(tokensList):
             prodSet = ProductionSetPrime(tokensList, head, index)
             prodList.append(prodSet)
         if (tokensList[0].type != "SEMICOLON"):
-            print(tokensList[0].lexeme)
+            print(tokensList[0].lexeme, file=sys.stderr)
             Die('not semicolon')
         tokensList.remove(tokensList[0])
         index += 1
@@ -61,7 +62,7 @@ def ProductionSet(tokensList, index):
     token = tokensList[0]
     head = token
     if (token.type != "SYMBOL") :
-        print(token.lexeme)
+        print(token.lexeme, file=sys.stderr)
         Die('not symbol')
     tokensList.remove(tokensList[0])
 
@@ -111,8 +112,8 @@ def Add(term, list):
         list.append(term)
 
 def Die(place):
-    print('Comitting Die')
-    print(place)
+    print('Comitting Die', file=sys.stderr)
+    print(place, file=sys.stderr)
     quit()
 
 def addLHS(grammar):

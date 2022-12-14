@@ -6,7 +6,7 @@ def makeFirst(ir):
     first = {}
     epToken = "EPSILON"
 
-    print("Create First Table:")
+    #print("Create First Table:")
     for alpha in ir.terminals:
         first[alpha] = {alpha}
     first[epToken] = {"EPSILON"}
@@ -34,12 +34,14 @@ def makeFirst(ir):
             i = 0
             k = len(prod[1]) - 1
             while epToken in first[prod[1][i]] and i < k:
-                i += 1
                 temp = first[prod[1][i]].copy()
-                rhs = rhs.update(temp.remove(epToken))
+                temp.remove(epToken)
+                rhs = rhs.update(temp)
+                i += 1
             if i == k and epToken in first[prod[1][k]]:
                 rhs.add(epToken)
-            first[prod[0]].update(rhs)
+            if not rhs is None:
+              first[prod[0]].update(rhs)
             #print("Production done")
         # Need to Check if first has changed
         for key in first:
@@ -55,7 +57,7 @@ def makeFollow(ir, first):
     epToken = "EPSILON"
     eofToken = "EOF"
 
-    print("Create Follow Table:")
+    #print("Create Follow Table:")
     for a in ir.nonterminals:
         follow[a] = set()
     #Incorrect - need a better way of finding top-level production (not always at top)
@@ -91,7 +93,7 @@ def makeFollow(ir, first):
     return follow
 
 def makeNext(ir, firstTable, followTable):
-    print('Create Next Table: ')
+    #print('Create Next Table: ')
     nextTable = {}
     epToken = "EPSILON"
     eofToken = "EOF"

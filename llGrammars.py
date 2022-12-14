@@ -9,7 +9,7 @@ class Tables:
     nextTable = {}
 
 def grammar_scan(contents):
-    print("Scan contents into a list of tokens return it \n")
+    #print("Scan contents into a list of tokens return it \n")
     scanned = scan_grammar(contents)
     #print(dict)
     #for token in scanned:
@@ -17,9 +17,9 @@ def grammar_scan(contents):
     return scanned
 
 def grammar_parse(tokens):
-    print("Read tokens into a grammar \n")
+    #print("Read tokens into a grammar \n")
     parsedGrammar = parseGrammar(tokens)
-    parsedGrammar.printIt()
+    #parsedGrammar.printIt()
     return parsedGrammar
 
 def fixLL(ir):
@@ -37,16 +37,16 @@ def make_tables(ir, worklist):
     if(worklist):
         sys.exit("Worklists not supported yet!")
     else:
-        print("Make and return the appropriate tables \n")
+        #print("Make and return the appropriate tables \n")
         # Each Table is a Dictionary, of Tokens mapped to Sets of Tokens
         tables.firstTable = makeFirst(ir)
-        print(tables.firstTable)
-        print('')
+        #print(tables.firstTable)
+        #print('')
         tables.followTable = makeFollow(ir, tables.firstTable)
-        print(tables.followTable)
-        print('')
+        #print(tables.followTable)
+        #print('')
         tables.nextTable = makeNext(ir, tables.firstTable, tables.followTable)
-        print(tables.nextTable)
+        #print(tables.nextTable)
         return(tables)
 
 def print_tables(tables):
@@ -114,8 +114,9 @@ def print_yaml(tables,grammar):
         for prod in p[1]:
             if not start:
                 print(", ",end="")
-            print(prod,end="")
-            start = False
+            if not prod=='EPSILON':
+                print(prod,end="")
+                start = False
         print("]}")            
         n+=1
     print("table:")

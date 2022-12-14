@@ -14,7 +14,7 @@ def main():
     revise = False
     worklist = False
     for o, a in opts:
-        print(o)
+        #print(o)
         if o in ("-h", "--help"):
             usage()
             sys.exit()
@@ -35,7 +35,7 @@ def main():
         if revise:
             ir = fixLL(ir)
         tables = make_tables(ir, worklist)
-        print_tables(tables)
+        #print_tables(tables)
         #print_yaml(tables,ir)
         if printTable:
             print_yaml(tables,ir)

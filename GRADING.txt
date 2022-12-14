@@ -1,0 +1,16 @@
+Interface: 3/5
+* Prints human-readable output always, even if -t flag passed.
+* Epsilon productions need to print as the empty list
+Scanner/Parser: 9/10
+* Doesn't handle semicolon without spaces before them well
+Correctness: 41/50
+* Didn't handle epsilon productions in table generation correctly (i iterated too soon)
+* Some minor python errors around None vs empty set.
+* Human readable output acceptable
+YAML table: 12/20
+* Doesn't detect non-LL1 grammars
+* Yaml does pass some tests, but not all, even with that fixed. 
+Worklists: 0/10
+* No worklists
+Missing Points: 5
+Total: 70 (C+)
